@@ -23,10 +23,18 @@ namespace Entidades.Modelos
         public string Imagen { get => imagen; }
         public string Ticket => $"{this}\nTotal a pagar:{this.costo}";
         
+        /// <summary>
+        /// Agrega los ingredientes a la hamburguesa
+        /// </summary>
         private void AgregarIngredientes()
         {
             this.ingredientes = this.random.IngredientesAleatorios();
         }
+
+        /// <summary>
+        /// Calcula el costo de la hamburguesa dependiendo la cantidad de ingredientes que tenga y cambia el estado del "pedido"
+        /// </summary>
+        /// <param name="cocinero"></param>
         public void FinalizarPreparacion(string cocinero)
         {
             this.costo = ingredientes.CalcularCostoIngredientes(costoBase);
@@ -39,6 +47,10 @@ namespace Entidades.Modelos
             this.esDoble = esDoble;
             this.random = new Random();
         }
+
+        /// <summary>
+        /// Si el estado es false crea un numero random y en base al numero busca la imagen en la base de datos se la asigna a la hamburguesa y agrega los ingredientes a la hamburguesa
+        /// </summary>
         public void IniciarPreparacion()
         {
             if (!this.Estado)
@@ -49,6 +61,11 @@ namespace Entidades.Modelos
             }
         }
 
+
+        /// <summary>
+        /// muestra los datos de la hamburguesa
+        /// </summary>
+        /// <returns></returns>
         private string MostrarDatos()
         {
             StringBuilder stringBuilder = new StringBuilder();

@@ -5,6 +5,12 @@ namespace Entidades.MetodosDeExtension
 {
     public static class IngredientesExtension
     {
+        /// <summary>
+        ///  toma el costo inicial e incrementa su valor porcentualmente en base a los valores de la lista de Ingredientes. 
+        /// </summary>
+        /// <param name="ingredientes"></param>
+        /// <param name="costoInicial"></param>
+        /// <returns></returns>
         public static double CalcularCostoIngredientes(this List<EIngrediente> ingredientes, int costoInicial)
         {
             double costoIncrementado = costoInicial;
@@ -17,6 +23,11 @@ namespace Entidades.MetodosDeExtension
             
         }
 
+        /// <summary>
+        /// Genera una lista de ingredientes de manera aleatoria
+        /// </summary>
+        /// <param name="rand"></param>
+        /// <returns></returns>
         public static List<EIngrediente> IngredientesAleatorios(this Random rand)
         {
 

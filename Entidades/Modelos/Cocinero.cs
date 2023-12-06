@@ -8,7 +8,6 @@ namespace Entidades.Modelos
     public delegate void DelegadoNuevoIngreso(IComestible menu);
     public delegate void DelegadoDemoraAtencion(double demora);
 
-
     public class Cocinero<T> where T : IComestible,new()
     {
         private CancellationTokenSource cancellation;
@@ -56,6 +55,10 @@ namespace Entidades.Modelos
         public string Nombre { get => nombre; }
         public int CantPedidosFinalizados { get => cantPedidosFinalizados; }
 
+
+        /// <summary>
+        /// realiza el ingreso en un hilo secundario y dependiendo si la tarea fue cancelada realiza el llamado a NotificarNuevoIngreso y EsperarProximoIngreso, ademas de aumentar la cantidad de pedidos y guardar el ticket en la base de datos
+        /// </summary>
         private void IniciarIngreso()
         {
             this.tarea=Task.Run(() => { 
@@ -63,7 +66,7 @@ namespace Entidades.Modelos
                 while (!this.cancellation.IsCancellationRequested)
                 {
                     NotificarNuevoIngreso();
-                    Thread.Sleep(1000);
+                    //Thread.Sleep(1000);
                     EsperarProximoIngreso();
                     this.cantPedidosFinalizados++;
                     DataBase.DataBaseManager.GuardarTicket(this.nombre, this.menu);
@@ -73,7 +76,9 @@ namespace Entidades.Modelos
             },this.cancellation.Token);
            
         }
-
+        /// <summary>
+        /// realiza la creacion de un nuevo menu si OnIngreso no posee suscriptores
+        /// </summary>
         private void NotificarNuevoIngreso()
         {
             if (this.OnIngreso != null)
@@ -84,7 +89,9 @@ namespace Entidades.Modelos
                this.OnIngreso.Invoke(this.menu);
             }
         }
-
+        /// <summary>
+        /// si posee un suscriptor notificara los segundos transcurridos en la preparacion del pedido mientras no sea cancelada la tarea y el estado del menu sea falso
+        /// </summary>
         private void EsperarProximoIngreso()
         {
             int tiempoEspera = 0;

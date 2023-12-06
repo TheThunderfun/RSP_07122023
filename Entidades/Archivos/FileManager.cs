@@ -21,8 +21,7 @@ namespace Entidades.Files
         {
              path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)+ "\\20230712_FranciscoHulej\\";
 
-            ValidaExistenciaDeDirectorio();
-
+             ValidaExistenciaDeDirectorio();
         }
 
             /// <summary>
@@ -34,17 +33,13 @@ namespace Entidades.Files
             /// <exception cref="FileManagerException"></exception>
            public static void Guardar(string data, string nombreArchivo, bool Append)
            {
-                string filePath=Path.Combine(path, nombreArchivo);
-                try
-                {
-                    using (StreamWriter wr = new StreamWriter(filePath, Append))//check
-                    {
-                        wr.WriteLine(data);
-                    }
-                }
-                 catch(Exception ex) {
-                    throw new FileManagerException("Error al guardar el archivo",ex);//check
-                }
+               string filePath=Path.Combine(path, nombreArchivo);
+
+               using (StreamWriter wr = new StreamWriter(filePath, Append))
+               {
+                 wr.WriteLine(data);
+               }
+          
            }
 
 
@@ -55,22 +50,15 @@ namespace Entidades.Files
         /// <param name="elemento"></param>
         /// <param name="nombreArchivo"></param>
         /// <returns></returns>
-        public static bool Serializar<T>(T elemento, string nombreArchivo)
+        public static bool Serializar<T>(T elemento, string nombreArchivo) where T :class
         {
-            try
-            {
-                string ruta = Path.Combine(path, nombreArchivo);
-                string json = JsonSerializer.Serialize(elemento, new JsonSerializerOptions
-                {
+          string ruta = Path.Combine(path, nombreArchivo);
+           string json = JsonSerializer.Serialize(elemento, new JsonSerializerOptions
+           {
                     WriteIndented = true,
-                });
-                File.WriteAllText(ruta, json);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+           });
+           File.WriteAllText(ruta, json);
+           return true;
         }
 
             /// <summary>
@@ -85,10 +73,17 @@ namespace Entidades.Files
                     {
                         Directory.CreateDirectory(path);
                     }
-                } catch (Exception e)
+                }catch(FileManagerException ex)
                 {
-                    throw new FileManagerException("Error al creal el directorio",e);
+                    Guardar(ex.Message + ex.StackTrace + ex.GetType(), "logs.txt", true);
+                    //throw;
+                } 
+                 catch (Exception ex)
+                {
+                    throw new FileManagerException("Error al creal el directorio",ex);
+
                 }
+                
             }
      }
        
