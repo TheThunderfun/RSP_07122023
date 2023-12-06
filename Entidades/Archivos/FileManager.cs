@@ -19,12 +19,19 @@ namespace Entidades.Files
 
         static FileManager()
         {
-            string ruta = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            path = Path.Combine(ruta, "\\20230712_FranciscoHulej\\");
+             path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)+ "\\20230712_FranciscoHulej\\";
 
             ValidaExistenciaDeDirectorio();
 
         }
+
+            /// <summary>
+            /// Guarda la cadena de caracteres recibida en el archivo recibido y dependiendo si recibe el append en true o false sobreescribe o no el archivo
+            /// </summary>
+            /// <param name="data"></param>
+            /// <param name="nombreArchivo"></param>
+            /// <param name="Append"></param>
+            /// <exception cref="FileManagerException"></exception>
            public static void Guardar(string data, string nombreArchivo, bool Append)
            {
                 string filePath=Path.Combine(path, nombreArchivo);
@@ -36,15 +43,40 @@ namespace Entidades.Files
                     }
                 }
                  catch(Exception ex) {
-                    throw new FileManagerException("Error al guardar el archivo",ex);
+                    throw new FileManagerException("Error al guardar el archivo",ex);//check
                 }
            }
 
-            public static bool Serializar<T>(T elemento, string nombreArchivo)
+
+        /// <summary>
+        /// Serializa el objeto recibido en un archivo Json 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="elemento"></param>
+        /// <param name="nombreArchivo"></param>
+        /// <returns></returns>
+        public static bool Serializar<T>(T elemento, string nombreArchivo)
+        {
+            try
             {
+                string ruta = Path.Combine(path, nombreArchivo);
+                string json = JsonSerializer.Serialize(elemento, new JsonSerializerOptions
+                {
+                    WriteIndented = true,
+                });
+                File.WriteAllText(ruta, json);
                 return true;
             }
+            catch
+            {
+                return false;
+            }
+        }
 
+            /// <summary>
+            /// Corrobora que el directorio exista de no ser asi lo crea
+            /// </summary>
+            /// <exception cref="FileManagerException"></exception>
             private static void ValidaExistenciaDeDirectorio()
             {
                 try

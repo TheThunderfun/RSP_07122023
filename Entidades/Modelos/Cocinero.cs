@@ -81,7 +81,7 @@ namespace Entidades.Modelos
                this.menu = new();
                this.menu.IniciarPreparacion();
                //this.menu.ToString();
-                this.OnIngreso.Invoke(this.menu);
+               this.OnIngreso.Invoke(this.menu);
             }
         }
 

@@ -31,7 +31,6 @@ namespace Entidades.Modelos
         {
             this.costo = ingredientes.CalcularCostoIngredientes(costoBase);
             this.estado = !this.Estado;
-
         }
         static Hamburguesa() => Hamburguesa.costoBase = 1500;
         public  Hamburguesa() : this(false) { }
@@ -47,7 +46,6 @@ namespace Entidades.Modelos
                 string imgStr= "Hamburguesa_" + this.random.Next(1, 9);
                 this.imagen=DataBaseManager.GetImagenComida(imgStr);
                 this.AgregarIngredientes();
-                this.estado = true;
             }
         }
 

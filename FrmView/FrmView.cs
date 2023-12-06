@@ -82,7 +82,6 @@ namespace FrmView
         {
             if (this.comidas.Count > 0)
             {
-
                 IComestible comida = this.comidas.Dequeue();
                 comida.FinalizarPreparacion(this.hamburguesero.Nombre);
                 this.ActualizarAtendidos(comida);
@@ -97,7 +96,7 @@ namespace FrmView
         private void FrmView_FormClosing(object sender, FormClosingEventArgs e)
         {
             //Alumno: Serializar el cocinero antes de cerrar el formulario
-            FileManager.Guardar(this.hamburguesero.Nombre,"a",true);
+            FileManager.Serializar(this.hamburguesero,"CocineroSerializado");
 
         }
     }
