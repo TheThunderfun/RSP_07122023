@@ -47,8 +47,7 @@ namespace Entidades.DataBase
                     else
                     {
                        throw new ComidaInvalidaExeption("No se pudo Obtener la imagen de la base de datos");  
-                    }
-                    
+                    }  
                 }
                 
             }
@@ -87,9 +86,9 @@ namespace Entidades.DataBase
                     string consulta = "INSERT INTO tickets (empleado,ticket) VALUES(@0,@1)";
 
                     SqlCommand command = new SqlCommand(consulta, DataBaseManager.connection);
+                    DataBaseManager.connection.Open();
                     command.Parameters.AddWithValue("@0",nombreEmpleado);
                     command.Parameters.AddWithValue("@1",comida.ToString());
-                    DataBaseManager.connection.Open();
                     if (command.ExecuteNonQuery()>0)
                     {
                        return true;

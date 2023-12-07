@@ -32,7 +32,7 @@ namespace Entidades.Modelos
         }
 
         /// <summary>
-        /// Calcula el costo de la hamburguesa dependiendo la cantidad de ingredientes que tenga y cambia el estado del "pedido"
+        /// Calcula el costo de la hamburguesa dependiendo la cantidad de ingredientes que tenga y cambia el estado de la misma
         /// </summary>
         /// <param name="cocinero"></param>
         public void FinalizarPreparacion(string cocinero)
